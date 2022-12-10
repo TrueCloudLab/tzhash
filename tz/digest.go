@@ -1,7 +1,7 @@
 package tz
 
 import (
-	"github.com/nspcc-dev/tzhash/gf127"
+	"github.com/TrueCloudLab/tzhash/gf127"
 )
 
 const (

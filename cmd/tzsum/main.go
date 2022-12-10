@@ -10,7 +10,7 @@ import (
 	"runtime"
 	"runtime/pprof"
 
-	"github.com/nspcc-dev/tzhash/tz"
+	"github.com/TrueCloudLab/tzhash/tz"
 	"golang.org/x/sys/cpu"
 )
 

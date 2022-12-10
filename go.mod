@@ -1,4 +1,4 @@
-module github.com/nspcc-dev/tzhash
+module github.com/TrueCloudLab/tzhash
 
 go 1.16
 

@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/nspcc-dev/tzhash/gf127"
+	"github.com/TrueCloudLab/tzhash/gf127"
 	"github.com/stretchr/testify/require"
 )
 
