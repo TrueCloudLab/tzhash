@@ -3,7 +3,7 @@ package tz
 import (
 	"errors"
 
-	"github.com/nspcc-dev/tzhash/gf127"
+	"github.com/TrueCloudLab/tzhash/gf127"
 )
 
 type (

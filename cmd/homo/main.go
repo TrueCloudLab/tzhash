@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/nspcc-dev/tzhash/tz"
+	"github.com/TrueCloudLab/tzhash/tz"
 )
 
 var (
