@@ -5,26 +5,30 @@
 **In project root:**
 
 ```bash
-# show help
-make
-# run auto demo
-make auto
+$ make
+...
+$ ./demo.sh
+
 ```
 
 # Homomorphic hashing in golang
 
-Package `tz` containts pure-Go implementation of hashing function described by Tillich and Źemor in [1] .
+Package `tz` contains pure-Go (with some Assembly) implementation of hashing
+function described by [Tillich and
+Zémor](https://link.springer.com/content/pdf/10.1007/3-540-48658-5_5.pdf).
 
-There are existing implementations already (e.g. [2]), however they are written in C.
+There are [existing implementations](https://github.com/srijs/hwsl2-core)
+already, however they are written in C.
 
 Package `gf127` contains arithmetic in `GF(2^127)` with `x^127+x^63+1` as reduction polynomial.
 
 # Description
 
-It can be used instead of Merkle-tree for data-validation, because homomorphic hashes
-are concatenable: hash sum of data can be calculated based on hashes of chunks.
+TZ Hash can be used instead of Merkle-tree for data-validation, because
+homomorphic hashes are concatenable: hash sum of data can be calculated based on
+hashes of chunks.
 
-The example of how it works can be seen in tests.
+The example of how it works can be seen in tests and demo.
 
 # Benchmarks
 
@@ -40,27 +44,30 @@ BenchmarkSum/PureGo_digest-8           68       17795480 ns/op          5.62 MB/
 
 # Contributing
 
-At this moment, we do not accept contributions. Follow us.
+Feel free to contribute to this project after reading the [contributing
+guidelines](CONTRIBUTING.md).
+
+Before starting to work on a certain topic, create a new issue first, describing
+the feature/topic you are going to implement.
 
 # Makefile
 
-```
-→ make
+``` bash
   Usage:
 
     make <target>
 
   Targets:
 
-    attach   Attach to existing container
-    auto     Auto Tillich-Zémor hasher demo
-    down     Stop demo container
-    help     Show this help prompt
-    up       Run Tillich-Zémor hasher demo
+    all       Just `make` will build all possible binaries
+    clean     Print version
+    dep       Pull go dependencies
+    help      Show this help prompt
+    test      Run Unit Test with go test
+    version   Print version
 ```
 
-# Links
+# References
 
-[1] https://link.springer.com/content/pdf/10.1007/3-540-48658-5_5.pdf
-
-[2] https://github.com/srijs/hwsl2-core
+- [https://link.springer.com/content/pdf/10.1007/3-540-48658-5_5.pdf](https://link.springer.com/content/pdf/10.1007/3-540-48658-5_5.pdf)
+- [https://github.com/srijs/hwsl2-core](https://github.com/srijs/hwsl2-core)
