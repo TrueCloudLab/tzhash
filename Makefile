@@ -1,56 +1,61 @@
-B=\033[0;1m
-G=\033[0;92m
-R=\033[0m
+#!/usr/bin/make -f
+SHELL = bash
 
-NAME ?= homo
+REPO ?= $(shell go list -m)
+VERSION ?= $(shell git describe --tags --dirty --match "v*" --always --abbrev=8 2>/dev/null || cat VERSION 2>/dev/null || echo "develop")
 
-.PHONY: help attach auto up down deps
+BIN = bin
+DIRS = $(BIN)
 
-# Show this help prompt
-help:
-	@echo '  Usage:'
-	@echo ''
-	@echo '    make <target>'
-	@echo ''
-	@echo '  Targets:'
-	@echo ''
-	@awk '/^#/{ comment = substr($$0,3) } comment && /^[a-zA-Z][a-zA-Z0-9_-]+ ?:/{ print "   ", $$1, comment }' $(MAKEFILE_LIST) | column -t -s ':' | grep -v 'IGNORE' | sort | uniq
+# List of binaries to build.
+CMDS = $(notdir $(basename $(wildcard cmd/*)))
+BINS = $(addprefix $(BIN)/, $(CMDS))
 
-# Install dependencies
-deps:
-	@go mod tidy -v
-	@go mod vendor
+.PHONY: all help clean
 
-# Auto Tillich-Zémor hasher demo
-auto: down deps
-	@echo "\n${B}${G}build container${R}\n"
-	@time docker build -t poc-demo .
-	@echo "\n${B}${G}Bootup container:${R}\n"
-	@time docker run -d --rm -it --name hash-demo poc-demo:latest sh
-	@bash ./auto.sh
-	@make down
+# To build a specific binary, use it's name prefix with bin/ as a target
+# For example `make bin/tzsum` will build only storage node binary
+# Just `make` will build all possible binaries
+all: $(DIRS) $(BINS)
 
-# Stop demo container
-down:
-	@echo "\n${B}${G}Stop container${R}\n"
-	@docker kill hash-demo || true
-	@docker rm -f hash-demo || true
+# help target
+include help.mk
 
-# Run Tillich-Zémor hasher demo
-up: down deps
-	@echo "\n${B}${G}build container${R}\n"
-	@time docker build -t poc-demo .
-	@echo "\n${B}${G}enter inside container:${R}\n"
-	@time docker run --rm -it --name hash-demo poc-demo:latest sh
+$(BINS): $(DIRS) dep
+	@echo "⇒ Build $@"
+	CGO_ENABLED=0 \
+	go build -v -trimpath \
+	-ldflags "-X $(REPO)/misc.Version=$(VERSION)" \
+	-o $@ ./cmd/$(notdir $@)
 
-# Attach to existing container
-attach:
-	@echo "\n${B}${G} attach to hash-container ${R}\n"
-	@time docker exec -it --name hash-demo /bin/sh
+$(DIRS):
+	@echo "⇒ Ensure dir: $@"
+	@mkdir -p $@
 
-# Test code with all backends
+# Pull go dependencies
+dep:
+	@printf "⇒ Download requirements: "
+	CGO_ENABLED=0 \
+	go mod download && echo OK
+	@printf "⇒ Tidy requirements : "
+	CGO_ENABLED=0 \
+	go mod tidy -v && echo OK
+
+# Run Unit Test with go test
 test:
-	go test ./...
+	@echo "⇒ Running go test"
+	@go test ./...
 
+# Run Unit Test with go test
 test.generic:
-	go test ./... --tags=generic
+	@echo "⇒ Running go test with generic tag"
+	@go test ./... --tags=generic
+
+# Print version
+version:
+	@echo $(VERSION)
+
+clean:
+	rm -rf vendor
+	rm -rf .cache
+	rm -rf $(BIN)

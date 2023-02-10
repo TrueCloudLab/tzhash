@@ -1,15 +1,27 @@
-# Binaries for programs and plugins
-*.exe
-*.exe~
-*.dll
-*.so
-*.dylib
+# IDE
+.idea
+.vscode
 
-# Test binary, build with `go test -c`
-*.test
-
-# Output of the go coverage tool, specifically when used with LiteIDE
-*.out
-
+# Vendoring
 vendor
-tzsum
+
+# tempfiles
+.DS_Store
+*~
+.cache
+
+temp
+tmp
+
+# binary
+bin/
+release/
+
+# coverage
+coverage.txt
+coverage.html
+
+# testing
+cmd/test
+/plugins/
+testfile
