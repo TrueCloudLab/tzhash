@@ -42,14 +42,6 @@ BenchmarkSum/AVX2Inline_digest-8      602       2077719 ns/op          48.13 MB/
 BenchmarkSum/PureGo_digest-8           68       17795480 ns/op          5.62 MB/s         5 allocs/op
 ```
 
-# Contributing
-
-Feel free to contribute to this project after reading the [contributing
-guidelines](CONTRIBUTING.md).
-
-Before starting to work on a certain topic, create a new issue first, describing
-the feature/topic you are going to implement.
-
 # Makefile
 
 ``` bash
@@ -66,6 +58,19 @@ the feature/topic you are going to implement.
     test      Run Unit Test with go test
     version   Print version
 ```
+
+# Contributing
+
+Feel free to contribute to this project after reading the [contributing
+guidelines](CONTRIBUTING.md).
+
+Before starting to work on a certain topic, create a new issue first, describing
+the feature/topic you are going to implement.
+
+# License
+
+This project is licensed under the Apache 2.0 License -
+see the [LICENSE](LICENSE) file for details
 
 # References
 
